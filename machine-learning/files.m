@@ -12,3 +12,4 @@ x=table.x; %obtener el contenido de la columna x.
 disp(x);
 
 plot(x, table.y)
+axis equal %establece la relacion del aspecto
