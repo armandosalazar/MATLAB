@@ -3,7 +3,7 @@
 
 clear, clc
 
-projection_vector = [1,1,0];
+projection_vector = [1,5,3];
 points = [
     3,2,2;
     3,4,3;
