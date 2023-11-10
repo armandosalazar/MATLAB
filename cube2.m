@@ -40,7 +40,9 @@ title('Gráfica de puntos')
 
 grid on
 
-%axis equal
+axis equal
+xlim([-max(abs(x)), max(abs(x))]);
+ylim([-max(abs(y)), max(abs(y))]);
 
 % Añadir etiquetas a cada punto
 for i = 1:length(x)
