@@ -14,4 +14,4 @@ b=rand(1);
 
 T = [1 0 0 1];
 
-plotpv(P, T)
+plotpv(P, T); % Para usar esto se necesita el Deep Learning Toolbox
