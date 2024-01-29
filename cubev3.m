@@ -36,6 +36,8 @@ end
 
 clear i x y
 
+temp = points;
 
+points(:,1) .* 2;
 
-
+plot(points(:,1), points(:,2));
