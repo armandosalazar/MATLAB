@@ -6,13 +6,25 @@ clear; clc; close all;
 % 2^7 2^6 2^5 2^4 2^3 2^2 2^1 2^0
 % 128 64 32 16 8 4 2 1 = 255
 
-img = imread("RBG.png"); % 660x960x3 uint8 = 0-255
+I = imread("rgb.png"); % 660x960x3 uint8 = 0-255
 figure(1), subplot(2,3,2)
-imshow(img), title('Imagen original');
+imshow(I), title('Imagen original');
 
-imgr = img(:,:,1); % red
-imgg = img(:,:,2); % green
-imgb = img(:,:,3); % blue
-figure(1), subplot(2,3,4), imshow(imgr), title('Plano Rojo');
-figure(1), subplot(2,3,5), imshow(imgg), title('Plano Verde');
-figure(1), subplot(2,3,6), imshow(imgb), title('Plano Azul');
+IRed    = I(:,:,1); % red
+IGreen  = I(:,:,2); % green
+IBlue   = I(:,:,3); % blue
+
+figure(1), subplot(2,3,4), imshow(IRed), title('Plano Rojo');
+figure(1), subplot(2,3,5), imshow(IGreen), title('Plano Verde');
+figure(1), subplot(2,3,6), imshow(IBlue), title('Plano Azul');
+
+ISize = size(I);
+fprintf('m=%d,n=%d,p=%d\n', ISize);
+fprintf('m=%d,n=%d\n', size(IRed));
+
+% write image
+% imwrite(IRed, 'r.png')
+a = 4;
+ISub = I(1:a:end,1:a:end,1:1:end);
+figure(2);
+imshow(ISub);
