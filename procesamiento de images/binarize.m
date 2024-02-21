@@ -22,7 +22,7 @@ end
 
 for i=1:m
     for j=1:n
-        if I(i, j) <= 128
+        if I(i, j) <= 192
             I(i, j, 1) = 0;
             I(i, j, 2) = 0;
             I(i, j, 3) = 0;
@@ -37,3 +37,5 @@ end
 subplot(1, 2, 2);
 imshow(I);
 title('Binarización');
+
+imwrite(I, "binarize.png")

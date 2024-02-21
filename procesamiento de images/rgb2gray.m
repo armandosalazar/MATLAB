@@ -25,8 +25,12 @@ subplot(1, 3, 2);
 imshow(IFirst);
 title('Grises ponderación');
 
+imwrite(IFirst, "ponderacion.png")
+
 ISecond = I(:,:,1) / 3 + I(:,:,2) / 3 + I(:,:,2) / 3;
 
 subplot(1, 3, 3)
 imshow(ISecond);
 title('Greses promedio');
+
+imwrite(ISecond, "promedio.png")
