@@ -2,7 +2,6 @@ function [I] = box(I)
 [m, n, ~] = size(I);
 I = double(I);
 sizeKernel = [5, 5];
-
 for x = 1:m
     for y = 1:n
         sum = 0;
