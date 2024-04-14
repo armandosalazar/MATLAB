@@ -1,17 +1,30 @@
-%function [outputArg1,outputArg2] = untitled(inputArg1,inputArg2)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-%outputArg1 = inputArg1;
-%outputArg2 = inputArg2;
-%end
-
-function ILaplace = laplace(IGray)
-  [x, y] = size(IGray);
-  fprintf("(x: %d, y: %d)\n", x, y);
-  for row=3:(x-2)
-    for column=3:(y-2)
+function [I] = laplace(I)
+sigma = 1.5;
+kernelSize = 2 * ceil(2 * sigma) + 1;
+kernel = zeros(kernelSize, kernelSize);
+center = floor(kernelSize / 2) + 1;
+for i = 1:kernelSize
+    for j = 1:kernelSize
+        x = i - center;
+        y = j - center;
+        kernel(i, j) = (1 / (sqrt(2 * pi) * sigma^3)) * (1 - ((x^2 + y^2) / (sigma^2))) * exp(-(x^2 + y^2) / (2 * sigma^2));
     end
-  end
-  ILaplace = 0;
 end
-
+kernel = kernel / sum(kernel(:));
+[m, n, ~] = size(I);
+I = double(I);
+for x = 1:m
+    for y = 1:n
+        ssum = 0;
+        for i = 1:kernelSize
+            for j = 1:kernelSize
+                xO = min(max(x + i - center, 1), m);
+                yO = min(max(y + j - center, 1), n);
+                ssum = ssum + double(I(xO, yO)) * kernel(i, j);
+            end
+        end
+        I(x, y) = ssum;
+    end
+end
+I = uint8(I);
+end
