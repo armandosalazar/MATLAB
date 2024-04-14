@@ -4,7 +4,7 @@
 
 clear; clc; close all;
 
-I = imread('lenna.png');
+I = imread('input/lenna.png');
 
 subplot(1, 3, 1);
 imshow(I);
@@ -25,7 +25,7 @@ subplot(1, 3, 2);
 imshow(IFirst);
 title('Grises ponderación');
 
-imwrite(IFirst, "ponderacion.png")
+imwrite(IFirst, "output/ponderacion.png")
 
 ISecond = I(:,:,1) / 3 + I(:,:,2) / 3 + I(:,:,2) / 3;
 
@@ -33,4 +33,4 @@ subplot(1, 3, 3)
 imshow(ISecond);
 title('Greses promedio');
 
-imwrite(ISecond, "promedio.png")
+imwrite(ISecond, "output/promedio.png")

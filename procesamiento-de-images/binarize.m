@@ -4,7 +4,7 @@
 
 clear; clc; close all;
 
-I = imread('lenna.png');
+I = imread('input/lenna.png');
 
 subplot(1, 2, 1);
 imshow(I);
@@ -38,4 +38,4 @@ subplot(1, 2, 2);
 imshow(I);
 title('Binarización');
 
-imwrite(I, "binarize.png")
+imwrite(I, "output/binarize.png")
