@@ -4,7 +4,7 @@
 
 clear; clc; close all;
 
-I = imread(addpath("imagep/input/mona.jpeg"));
+I = imread("mona.jpeg");
 
 % IGray = I(:,:,1) / 3 + I(:,:,2) / 3 + I(:,:,3) / 3;
 
@@ -36,3 +36,7 @@ title("Salt and Pepper Image");
 subplot(1,3,3);
 imshow(IAverage);
 title("Average Image");
+
+imwrite(ISaltPepper, "saltPepper.jpeg");
+imwrite(IHalf, "half.jpeg");
+imwrite(IAverage, "average.jpeg");
