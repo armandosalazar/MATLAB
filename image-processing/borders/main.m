@@ -4,6 +4,6 @@
 
 clear; clc; close all;
 
-I = imread("image-processing/input/mona.jpeg");
+I = imread("../input/mona.jpeg");
 
 sobel(I);

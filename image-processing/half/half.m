@@ -1,10 +1,7 @@
 function I = half(I)
     [m, n, ~] = size(I); % m = height, n = width
     I = double(I);
-    fprintf("height: %d\n", m);
-    fprintf("width: %d\n", n);
     arrHalf = zeros(9);
-
     for x = 2:m-1
         for y = 2:n-1
             arrHalf(1) = I(x-1, y-1);
@@ -16,12 +13,9 @@ function I = half(I)
             arrHalf(7) = I(x+1, y-1);
             arrHalf(8) = I(x+1, y);
             arrHalf(9) = I(x+1, y+1);
-
             arrHalf = sort(arrHalf);
-
             I(x, y) = arrHalf(5);
         end
     end
-
     I = uint8(I);
 end
