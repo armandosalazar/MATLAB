@@ -143,42 +143,34 @@ h = ones(3,3)/9;
 Id = double(Ir);
 If = imfilter(Id,h);
 
-% Gradiente horizontal Hx y vertical Hy
 Hx=[-0.5 0 0.5];
 Hy=[-0.5;0;0.5];
 
 Ix=imfilter(If,Hx);
 Iy=imfilter(If,Hy);
 
-% Coeficientes de la matriz de estructuras
 HE11=Ix.*Ix;
 HE22=Iy.*Iy;
 HE12=Ix.*Iy;
 
-%Se crea la matriz del filtro Gaussiano
 Hg=[0 1 2 1 0; 1 3 5 3 1;2 5 9 5 2;1 3 5 3 1;0 1 2 1 0];
 Hg=Hg*(1/57);
 
-%Se filtran los coeficientes de la matriz de estructuras con el filtro Gaussiano
 A=imfilter(HE11,Hg);
 B=imfilter(HE22,Hg);
 C=imfilter(HE12,Hg);
 
 alfa=0.04;
 
-% Magnitud del valor de la esquina
 Rp=A+B; 
 Rp1=Rp.*Rp; 
 
-%Valor de la esquina 
 Q=((A.*B)-(C.*C))-(alfa*Rp1);
 
-%Se obtiene la matriz U 
 th=1000;
 U=Q>th;
 pixel=8;
 
-%Se obtiene el valor mas grande de Q
 for r=1:m
     for c=1:n
         if(U(r,c))
@@ -199,12 +191,11 @@ for r=1:m
     end
 end
 
-%Se mantiene el objeto grafico 
 figure;
 imshow(Ir);
 hold on
 
-%Se grafican sobre la imagen Ir las esquinas calculadas por el algoritmo de Harris 
+
 for r=1:m
     for c=1:n
         if(S(r,c))
@@ -212,4 +203,6 @@ for r=1:m
         end
     end
 end
+
+imwrite(S, cat(2, pwd, '/output/harris.png'));
 end
