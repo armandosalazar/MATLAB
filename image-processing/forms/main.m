@@ -1,73 +1,81 @@
 clear; clc; close all;
 
-I = imread("forms/mario.jpeg");
+% Leer la imagen
+I = imread("mario.jpeg");
 
-IGray = funcRgbToGray(I);
-IBinary = funcBinarize(IGray, 128);
-H = [1 1 1; 1 1 1; 1 1 1];
+% Convertir la imagen a escala de grises
+IGray = RgbToGray(I);
 
+% Binarizar la imagen
+threshold = 128;
+IBinary = Binarize(IGray, threshold);
+
+% Definir el elemento estructurante
+H = [1 1 1; 1 1 1; 1 1 1];  % elemento estructurante cuadrado de 3x3
+
+% Pedir el número de iteraciones
 prompt = 'Enter the number of iterations: ';
 n = input(prompt);
 
-IDilation = funcDilationMultiple(IBinary, H, n);
-IErotion = funcErotionMultiple(IBinary, H, n);
+% Aplicar la dilatación y erosión múltiples veces
+IDilation = IBinary;
+IErosion = IBinary;
+for i = 1:n
+    IDilation = Dilate(IDilation, H);
+    IErosion = Erode(IErosion, H);
+end
 
+% Mostrar los resultados
 figure;
-imshow(IErotion);
-title(strcat('Erotion Image with ', int2str(n), ' iterations'));
+imshow(IBinary);
+title("Imagen binary");
+figure;
+imshow(IErosion);
+title(strcat('Erosion Image with', ' ', int2str(n), ' iterations'));
 figure;
 imshow(IDilation);
-title(strcat('Dilation Image with ', int2str(n), ' iterations'));
+title(strcat('Dilation Image with', ' ', int2str(n), ' iterations'));
 
-function I = funcRgbToGray(I)
+function I = RgbToGray(I)
 	I = I(:,:,1) ./ 3 + I(:,:,2) ./ 3 + I(:,:,3) ./ 3;
 end
 
-function I = funcBinarize(I, threshold)
+function I = Binarize(I, threshold)
 	I(I < threshold) = 0;
 	I(I >= threshold) = 255;
 end
 
-function I = funcErotion(I, H)
-  [rows, cols] = size(I);
-  IErotion = zeros(rows, cols);
+% Funciones personalizadas de erosión y dilatación
+function IErosion = Erode(I, H)
+    [rows, cols] = size(I);
+    [hRows, hCols] = size(H);
+    padSize = floor(hRows / 2);
+    IPadded = padarray(I, [padSize padSize], 1);  % Pad with ones (assuming foreground is 1)
 
-  for i=2:rows-1
-	for j=2:cols-1
-	  if sum(sum(I(i-1:i+1, j-1:j+1) & H)) == sum(H(:))
-		IErotion(i, j) = 1;
-	  else
-		IErotion(i, j) = 0;
-	  end
-	end
-  end
+    IErosion = false(size(I));
+    for i = 1:rows
+        for j = 1:cols
+            region = IPadded(i:i+hRows-1, j:j+hCols-1);
+            if isequal(region & H, H)
+                IErosion(i, j) = true;
+            end
+        end
+    end
 end
 
-function IDilation = funcDilation(I, H)
-  [rows, cols] = size(I);
-  IDilation = zeros(rows, cols);
+function IDilation = Dilate(I, H)
+    [rows, cols] = size(I);
+    [hRows, hCols] = size(H);
+    padSize = floor(hRows / 2);
+    IPadded = padarray(I, [padSize padSize], 0);  % Pad with zeros (assuming background is 0)
 
-  for i = 2:rows-1
-	for j = 2:cols-1
-	  if sum(sum(I(i-1:i+1, j-1:j+1) & H)) > 0
-		IDilation(i, j) = 1;
-	  else
-		IDilation(i, j) = 0;
-	  end
-	end
-  end
-end
-
-function IErotion = funcErotionMultiple(I, H, n)
-	IErotion = I;
-	for i = 1:n
-	IErotion = funcErotion(IErotion, H);
-	end
-end
-
-function IDilation = funcDilationMultiple(I, H, n)
-	IDilation = I;
-	for i = 1:n
-	IDilation = funcDilation(IDilation, H);
-	end
+    IDilation = false(size(I));
+    for i = 1:rows
+        for j = 1:cols
+            region = IPadded(i:i+hRows-1, j:j+hCols-1);
+            if any(region & H, 'all')
+                IDilation(i, j) = true;
+            end
+        end
+    end
 end
